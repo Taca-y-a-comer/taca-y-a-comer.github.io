@@ -1,32 +1,332 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Taca y a comer</title>
-<style>
-  :root { color-scheme: light; }
-  body { margin: 0; background: #F8E4CE; color: #3A2A1A;
-         font: 17px/1.6 -apple-system, "Segoe UI", Roboto, sans-serif; }
-  main { max-width: 42rem; margin: 0 auto; padding: 3rem 1.25rem 4rem; }
-  h1 { color: #BC5E18; font-size: 1.7rem; margin: 0 0 .5rem; }
-  a { color: #BC5E18; }
-  ul { padding-left: 1.25rem; }
-  li { margin: .5rem 0; }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Taca y a comer · la memoria de los platos de tu grupo</title>
+  <meta name="description" content="Taca y a comer guarda cada plato que pruebas con tus amigos: quién lo pidió, cuánto os gustó y cuándo. Para Android y iPhone, por invitación.">
+
+  <!-- Link previews. og:image must stay an absolute URL. These are meta tags only: the page itself fetches nothing. -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tacayacomer.com/">
+  <meta property="og:title" content="Taca y a comer">
+  <meta property="og:description" content="La memoria compartida de los platos que coméis juntos.">
+  <meta property="og:image" content="https://tacayacomer.com/img/og-image.png">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="500">
+  <meta property="og:image:alt" content="Una cuchara junto al nombre «Taca y a comer»">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:locale:alternate" content="en_GB">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <meta name="theme-color" content="#F3F0EA" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0B0A07" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+
+  <!-- Self-hosted fonts (SIL OFL 1.1, licences in fonts/). No third-party requests of any kind: no font
+       service, no analytics, no CDN, no script. The preload URL must match style.css's @font-face URL. -->
+  <link rel="preload" href="fonts/gabarito_bold.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<main>
-  <h1>Taca y a comer</h1>
-  <p>La memoria compartida de platos de tu grupo de amigos ·
-  Your friend group's shared dish memory.</p>
-  <ul>
-    <li><a href="/legal/terms.html">Condiciones del servicio / Terms of Service</a></li>
-    <li><a href="/legal/privacy.html">Política de privacidad / Privacy policy</a></li>
-    <li><a href="/legal/delete-account.html">Eliminar tu cuenta / Delete your account</a></li>
-  </ul>
-  <p>Contacto / Contact:
-  <a href="mailto:hola@tacayacomer.com">hola@tacayacomer.com</a></p>
-</main>
+
+<!--
+  tacayacomer.com, the app's presentation page (BACKLOG.md §44, issue #125). One static page, no build step.
+
+  Two languages, no script: the Spanish page (#es) shows by default; the English page (#en) shows while the
+  address ends in #en or in any id inside it (style.css, "Languages"). Every link in a block points to an id
+  in the same block. Browsers without :has() show both, Spanish first.
+
+  The legal pages stay where the store listings point: /legal/terms.html, /legal/privacy.html,
+  /legal/delete-account.html (served by the Taca-y-a-comer/legal repo, not by this one). Never add a legal/
+  folder here.
+
+  Screens: renders of the Azulejo redesign's design drawings (kit/shot.py --amber), NOT screenshots of a
+  shipped build. Swap them for real screenshots at the redesign release (same file names in img/screens/,
+  540 x 1200). Every name and place in them is invented sample data.
+
+  Both stores are invitation-only today, so the page shows no store badges. When a public listing exists,
+  replace the store lines with the official badges and links, following each store's badge guidelines.
+-->
+
+<!-- ===================================================================== ESPAÑOL -->
+<div class="lang lang-es" id="es" lang="es">
+  <a class="skip" href="#es-main">Saltar al contenido</a>
+
+  <header class="site-header">
+    <div class="band" aria-hidden="true"></div>
+    <div class="wrap header-row">
+      <a class="brand" href="#es" aria-label="Taca y a comer, inicio">
+        <img src="img/icon-256.png" width="40" height="40" alt="">
+        <span>Taca y a comer</span>
+      </a>
+      <nav class="nav" aria-label="Secciones">
+        <a href="#como-es">Cómo es</a>
+        <a href="#consiguela">Consíguela</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <a class="lang-link" href="#en" hreflang="en" lang="en">English</a>
+    </div>
+  </header>
+
+  <main id="es-main">
+    <section class="hero" aria-labelledby="es-title">
+      <div class="wrap hero-grid">
+        <div class="hero-text">
+          <p class="eyebrow">Restaurantes hay muchos. Aquí cuentan los platos.</p>
+          <h1 id="es-title">Cada plato que coméis juntos, recordado.</h1>
+          <!-- Alternative headline (owner decision 2): «¿Ya lo pedimos? ¿Nos gustó?» -->
+          <p class="promise">La memoria compartida de tu grupo de amigos: qué pedisteis, quién lo probó y cuánto os gustó, para saber qué pedir la próxima vez.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="mailto:hola@tacayacomer.com?subject=Invitaci%C3%B3n%20a%20Taca%20y%20a%20comer&amp;body=Hola%3A%20me%20gustar%C3%ADa%20probar%20Taca%20y%20a%20comer.%0D%0AMi%20m%C3%B3vil%20es%3A%20Android%20%2F%20iPhone%20%28deja%20el%20tuyo%29.">Pide una invitación</a>
+            <a class="text-link" href="#como-es">Mira cómo es <span aria-hidden="true">↓</span></a>
+          </div>
+          <p class="fine">Para Android y iPhone · De momento, solo con invitación</p>
+        </div>
+
+        <!-- Screens: design renders, NOT screenshots of a shipped build; swap them at the redesign release.
+             The side phones repeat screens the gallery describes, so they carry an empty alt. -->
+        <div class="hero-art">
+          <div class="hero-panel" aria-hidden="true"></div>
+          <div class="fan">
+            <div class="phone p-l"><img src="img/screens/01-feed.jpg" width="540" height="1200" alt=""></div>
+            <div class="phone p-r"><img src="img/screens/08-valorar.jpg" width="540" height="1200" alt=""></div>
+            <div class="phone p-c"><img src="img/screens/02-plato.jpg" width="540" height="1200" fetchpriority="high"
+                 alt="Página de un plato, patatas bravas: tres notas a la vista (Tú 9,0, Grupo 8,7 y Global 8,2) y la última nota escrita."></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features" id="como-es" aria-labelledby="como-es-title">
+      <div class="wrap">
+        <h2 id="como-es-title">Cómo es</h2>
+        <ul class="points">
+          <li class="point">
+            <span class="mini mini-a" aria-hidden="true"></span>
+            <h3>La memoria de cada plato</h3>
+            <p>No valoras el restaurante: valoras el plato, cada vez que lo pruebas. Las bravas de tu bar de siempre tienen su propia historia, degustación a degustación.</p>
+          </li>
+          <li class="point">
+            <span class="mini mini-b" aria-hidden="true"></span>
+            <h3>Tu nota, la de tu grupo y la de todos</h3>
+            <!-- The Grupo score is a user setting, off by default in the redesign (owner decision 3): the copy
+                 says "three scores at a glance", never "always". -->
+            <p>Tres notas de un vistazo: Tú, Grupo y Global. Y en el historial ves quién lo probó y qué le pareció.</p>
+          </li>
+          <li class="point">
+            <span class="mini mini-c" aria-hidden="true"></span>
+            <h3>Quedadas con «Qué&nbsp;pedimos»</h3>
+            <p>Crea el evento, invita a los tuyos y haced la lista antes de llegar: cada uno toca «Yo&nbsp;también» y os sentáis a la mesa sabiendo qué pedir.</p>
+          </li>
+          <li class="point">
+            <span class="mini mini-d" aria-hidden="true"></span>
+            <h3>La carta, por secciones</h3>
+            <p>Los platos de un restaurante, agrupados por las secciones de su carta (entrantes, principales, postres…) y cada uno con vuestras notas.</p>
+          </li>
+        </ul>
+        <p class="privacy"><span class="quartet" aria-hidden="true"></span><span>Tú decides quién ve cada valoración: Solo yo, Amigos o Todos. Sin anuncios ni rastreo&nbsp;publicitario.</span></p>
+      </div>
+    </section>
+
+    <section class="gallery" id="asi-es" aria-labelledby="asi-es-title">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="asi-es-title">Así es</h2>
+          <!-- Owner decision 1: the screens show the redesign, not the shipped 0.5.0. Remove this line at the
+               redesign release, when the screens are swapped for real screenshots. -->
+          <p class="note">Así será la próxima versión.</p>
+        </div>
+        <!-- Screens: renders of the Azulejo redesign's design drawings (kit/shot.py --amber), NOT screenshots of a
+             shipped build. Swap them for real screenshots at the redesign release. The first four follow the four
+             points above, in their order. A phone swipes the row; a desktop shows two rows of four. -->
+        <div class="shots-scroll" role="region" aria-label="Pantallas de la app" tabindex="0">
+          <ul class="shots">
+            <li><figure class="shot"><div class="phone"><img src="img/screens/03-plato-historial.jpg" width="540" height="1200" loading="lazy" alt="Historial de un plato: 12 degustaciones de 5 personas, la media de cada una y cada nota con su fecha."></div><figcaption>Cada vez que lo probasteis</figcaption></figure></li>
+            <li><figure class="shot"><div class="phone"><img src="img/screens/02-plato.jpg" width="540" height="1200" loading="lazy" alt="Página de un plato, patatas bravas: tres notas a la vista (Tú 9,0, Grupo 8,7 y Global 8,2) y la última nota escrita."></div><figcaption>Un plato, tres notas</figcaption></figure></li>
+            <li><figure class="shot"><div class="phone"><img src="img/screens/07-que-pedimos.jpg" width="540" height="1200" loading="lazy" alt="«Qué pedimos» del evento Cumple de Carmen: la lista de platos que el grupo piensa pedir, con el botón «Yo también» para apuntarse."></div><figcaption>La lista de «Qué&nbsp;pedimos»</figcaption></figure></li>
+            <li><figure class="shot"><div class="phone"><img src="img/screens/04-restaurante-carta.jpg" width="540" height="1200" loading="lazy" alt="Página del restaurante Casa Brígida: la carta por secciones (Entrantes, Principales, Postres) y cada plato con sus tres notas."></div><figcaption>La carta del restaurante, con vuestras notas</figcaption></figure></li>
+            <li><figure class="shot"><div class="phone"><img src="img/screens/05-buscar-mapa.jpg" width="540" height="1200" loading="lazy" alt="Buscar en el mapa: restaurantes marcados con su nota media; al tocar Casa Brígida aparecen sus platos con sus notas."></div><figcaption>Busca en el mapa</figcaption></figure></li>
+            <li><figure class="shot"><div class="phone"><img src="img/screens/06-evento.jpg" width="540" height="1200" loading="lazy" alt="Un evento, Jueves de Laurel: los platos que pidió el grupo y la nota que les puso cada persona."></div><figcaption>Lo que pidió cada uno en la quedada</figcaption></figure></li>
+            <li><figure class="shot"><div class="phone"><img src="img/screens/01-feed.jpg" width="540" height="1200" loading="lazy" alt="Pantalla Feed: publicaciones de amigos con los platos que comieron y su nota, como unas patatas bravas con 9/10 en Bar El Soportal."></div><figcaption>Lo último que han comido tus amigos</figcaption></figure></li>
+            <li><figure class="shot"><div class="phone"><img src="img/screens/08-valorar.jpg" width="540" height="1200" loading="lazy" alt="Valorar un plato: patatas bravas con un 9/10, quién puede verlo (Solo yo, Amigos o Todos), una nota y dónde añadir una foto."></div><figcaption>Valorar un plato en segundos</figcaption></figure></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="get" id="consiguela" aria-labelledby="consiguela-title">
+      <div class="wrap">
+        <div class="get-card">
+          <span class="quartet quartet-lg" aria-hidden="true"></span>
+          <h2 id="consiguela-title">Consíguela</h2>
+          <p>Taca y a comer está en pruebas con un grupo de amigos. Para entrar hace falta una invitación: escríbenos y te contamos.</p>
+          <!-- Plain text, not store badges: both stores are invitation-only (Google Play internal testing,
+               TestFlight). No border and no hover, so neither line reads as a button or a download. -->
+          <ul class="stores">
+            <li><strong>Android · Google Play</strong><span>solo con invitación</span></li>
+            <li><strong>iPhone · App Store</strong><span>próximamente</span></li>
+          </ul>
+          <a class="btn btn-primary" href="mailto:hola@tacayacomer.com?subject=Invitaci%C3%B3n%20a%20Taca%20y%20a%20comer&amp;body=Hola%3A%20me%20gustar%C3%ADa%20probar%20Taca%20y%20a%20comer.%0D%0AMi%20m%C3%B3vil%20es%3A%20Android%20%2F%20iPhone%20%28deja%20el%20tuyo%29.">Pide una invitación</a>
+          <p class="fine">O escribe a <a href="mailto:hola@tacayacomer.com">hola@tacayacomer.com</a></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="contacto">
+    <div class="band" aria-hidden="true"></div>
+    <div class="wrap footer-inner">
+      <p class="footer-brand"><img src="img/icon-256.png" width="32" height="32" alt="" loading="lazy">Taca y a comer</p>
+      <nav aria-label="Legal y contacto">
+        <ul class="footer-links">
+          <li><a href="/legal/privacy.html">Privacidad</a></li>
+          <li><a href="/legal/terms.html">Términos</a></li>
+          <li><a href="/legal/delete-account.html">Eliminar tu cuenta</a></li>
+          <li><a href="mailto:hola@tacayacomer.com">Contacto: hola@tacayacomer.com</a></li>
+        </ul>
+      </nav>
+      <p class="small">© 2026 Taca y a comer · Tipografías <a href="fonts/OFL-Gabarito.txt">Gabarito</a> y <a href="fonts/OFL-Figtree.txt">Figtree</a> (licencia SIL OFL 1.1) · <a href="#en" hreflang="en" lang="en">English</a></p>
+    </div>
+  </footer>
+</div>
+
+<!-- ===================================================================== ENGLISH -->
+<!-- Every image here is lazy: this block is hidden by default, so it costs nothing until someone opens it. -->
+<div class="lang lang-en" id="en" lang="en">
+  <a class="skip" href="#en-main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="band" aria-hidden="true"></div>
+    <div class="wrap header-row">
+      <a class="brand" href="#en" aria-label="Taca y a comer, home">
+        <img src="img/icon-256.png" width="40" height="40" alt="" loading="lazy">
+        <span>Taca y a comer</span>
+      </a>
+      <nav class="nav" aria-label="Sections">
+        <a href="#what-it-is">What it is</a>
+        <a href="#get-it">Get it</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="lang-link" href="#es" hreflang="es" lang="es">Español</a>
+    </div>
+  </header>
+
+  <main id="en-main">
+    <section class="hero" aria-labelledby="en-title">
+      <div class="wrap hero-grid">
+        <div class="hero-text">
+          <p class="eyebrow">Plenty of apps rate restaurants. This one remembers dishes.</p>
+          <h1 id="en-title">Every dish you eat together, remembered.</h1>
+          <!-- Alternative headline (owner decision 2): “Have we had this? Did we like it?” -->
+          <p class="promise">Your friend group’s shared memory: what you ordered, who tried it and how much you liked it, so you know what to order next time.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="mailto:hola@tacayacomer.com?subject=Invitation%20to%20Taca%20y%20a%20comer&amp;body=Hi%21%20I%27d%20like%20to%20try%20Taca%20y%20a%20comer.%0D%0AMy%20phone%20is%3A%20Android%20%2F%20iPhone%20%28keep%20yours%29.">Ask for an invitation</a>
+            <a class="text-link" href="#what-it-is">See what it looks like <span aria-hidden="true">↓</span></a>
+          </div>
+          <p class="fine">For Android and iPhone · Invitation only for now</p>
+        </div>
+
+        <!-- Screens: design renders, NOT screenshots of a shipped build; swap them at the redesign release.
+             The app's own text in them is Spanish. -->
+        <div class="hero-art">
+          <div class="hero-panel" aria-hidden="true"></div>
+          <div class="fan">
+            <div class="phone p-l"><img src="img/screens/01-feed.jpg" width="540" height="1200" loading="lazy" alt=""></div>
+            <div class="phone p-r"><img src="img/screens/08-valorar.jpg" width="540" height="1200" loading="lazy" alt=""></div>
+            <div class="phone p-c"><img src="img/screens/02-plato.jpg" width="540" height="1200" loading="lazy"
+                 alt="A dish page, patatas bravas: three scores side by side (You 9.0, Group 8.7, All 8.2) and the latest note."></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features" id="what-it-is" aria-labelledby="what-it-is-title">
+      <div class="wrap">
+        <h2 id="what-it-is-title">What it is</h2>
+        <ul class="points">
+          <li class="point">
+            <span class="mini mini-a" aria-hidden="true"></span>
+            <h3>A memory for every dish</h3>
+            <p>You don’t rate the restaurant, you rate the dish, every time you have it. The bravas at your usual bar get their own history, tasting by tasting.</p>
+          </li>
+          <li class="point">
+            <span class="mini mini-b" aria-hidden="true"></span>
+            <h3>Your score, your group’s and everyone’s</h3>
+            <p>Three scores at a glance: You, Group and All. The history shows who tried it and what they thought.</p>
+          </li>
+          <li class="point">
+            <span class="mini mini-c" aria-hidden="true"></span>
+            <h3>Outings with “What&nbsp;to&nbsp;order”</h3>
+            <p>Plan the outing, invite your people and make the list before you get there: everyone taps “Me&nbsp;too” and you sit down knowing what to order.</p>
+          </li>
+          <li class="point">
+            <span class="mini mini-d" aria-hidden="true"></span>
+            <h3>The menu, section by section</h3>
+            <p>A restaurant’s dishes, grouped by its menu’s sections (starters, mains, desserts…), each with your scores.</p>
+          </li>
+        </ul>
+        <p class="privacy"><span class="quartet" aria-hidden="true"></span><span>You choose who sees each rating: Only me, Friends or Everyone. No ads, no ad&nbsp;tracking.</span></p>
+      </div>
+    </section>
+
+    <section class="gallery" id="a-look-inside" aria-labelledby="a-look-inside-title">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="a-look-inside-title">A look inside</h2>
+          <!-- Owner decision 1: remove at the redesign release. -->
+          <p class="note">A look at the next version.</p>
+        </div>
+        <!-- Screens: design renders, NOT screenshots of a shipped build; swap them at the redesign release. -->
+        <div class="shots-scroll" role="region" aria-label="Screens of the app" tabindex="0">
+          <ul class="shots">
+            <li><figure class="shot"><div class="phone"><img src="img/screens/03-plato-historial.jpg" width="540" height="1200" loading="lazy" alt="A dish’s history: 12 tastings by 5 people, each person’s average and every note with its date."></div><figcaption>Every time you had it</figcaption></figure></li>
+            <li><figure class="shot"><div class="phone"><img src="img/screens/02-plato.jpg" width="540" height="1200" loading="lazy" alt="A dish page, patatas bravas: three scores side by side (You 9.0, Group 8.7, All 8.2) and the latest note."></div><figcaption>One dish, three scores</figcaption></figure></li>
+            <li><figure class="shot"><div class="phone"><img src="img/screens/07-que-pedimos.jpg" width="540" height="1200" loading="lazy" alt="“What to order” for Carmen’s birthday dinner: the list of dishes the group plans to order, with a “Me too” button to join in."></div><figcaption>The “What&nbsp;to&nbsp;order” list</figcaption></figure></li>
+            <li><figure class="shot"><div class="phone"><img src="img/screens/04-restaurante-carta.jpg" width="540" height="1200" loading="lazy" alt="The Casa Brígida restaurant page: the menu by sections (Starters, Mains, Desserts), each dish with its three scores."></div><figcaption>The restaurant’s menu, with your scores</figcaption></figure></li>
+            <li><figure class="shot"><div class="phone"><img src="img/screens/05-buscar-mapa.jpg" width="540" height="1200" loading="lazy" alt="Search on the map: restaurants pinned with their average score; tapping Casa Brígida shows its dishes and their scores."></div><figcaption>Search on the map</figcaption></figure></li>
+            <li><figure class="shot"><div class="phone"><img src="img/screens/06-evento.jpg" width="540" height="1200" loading="lazy" alt="An outing, Jueves de Laurel: the dishes the group ordered and the score each person gave them."></div><figcaption>What everyone had at the outing</figcaption></figure></li>
+            <li><figure class="shot"><div class="phone"><img src="img/screens/01-feed.jpg" width="540" height="1200" loading="lazy" alt="The Feed: friends’ posts with the dishes they ate and their scores, such as patatas bravas rated 9/10 at Bar El Soportal."></div><figcaption>What your friends have been eating</figcaption></figure></li>
+            <li><figure class="shot"><div class="phone"><img src="img/screens/08-valorar.jpg" width="540" height="1200" loading="lazy" alt="Rating a dish: patatas bravas at 9/10, who can see it (Only me, Friends or Everyone), a note and where to add a photo."></div><figcaption>Rate a dish in seconds</figcaption></figure></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="get" id="get-it" aria-labelledby="get-it-title">
+      <div class="wrap">
+        <div class="get-card">
+          <span class="quartet quartet-lg" aria-hidden="true"></span>
+          <h2 id="get-it-title">Get it</h2>
+          <p>Taca y a comer is being tested by a group of friends. You need an invitation to join: write to us and we’ll tell you more.</p>
+          <ul class="stores">
+            <li><strong>Android · Google Play</strong><span>invitation only</span></li>
+            <li><strong>iPhone · App Store</strong><span>coming soon</span></li>
+          </ul>
+          <a class="btn btn-primary" href="mailto:hola@tacayacomer.com?subject=Invitation%20to%20Taca%20y%20a%20comer&amp;body=Hi%21%20I%27d%20like%20to%20try%20Taca%20y%20a%20comer.%0D%0AMy%20phone%20is%3A%20Android%20%2F%20iPhone%20%28keep%20yours%29.">Ask for an invitation</a>
+          <p class="fine">Or write to <a href="mailto:hola@tacayacomer.com">hola@tacayacomer.com</a></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="contact">
+    <div class="band" aria-hidden="true"></div>
+    <div class="wrap footer-inner">
+      <p class="footer-brand"><img src="img/icon-256.png" width="32" height="32" alt="" loading="lazy">Taca y a comer</p>
+      <nav aria-label="Legal and contact">
+        <ul class="footer-links">
+          <li><a href="/legal/privacy.html">Privacy</a></li>
+          <li><a href="/legal/terms.html">Terms</a></li>
+          <li><a href="/legal/delete-account.html">Delete your account</a></li>
+          <li><a href="mailto:hola@tacayacomer.com">Contact: hola@tacayacomer.com</a></li>
+        </ul>
+      </nav>
+      <p class="small">© 2026 Taca y a comer · <a href="fonts/OFL-Gabarito.txt">Gabarito</a> and <a href="fonts/OFL-Figtree.txt">Figtree</a> typefaces (SIL OFL 1.1 licence) · <a href="#es" hreflang="es" lang="es">Español</a></p>
+    </div>
+  </footer>
+</div>
+
 </body>
 </html>

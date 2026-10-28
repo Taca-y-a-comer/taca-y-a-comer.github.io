@@ -1,0 +1,315 @@
+/* tacayacomer.com, the app's presentation page.
+   Palette and type: the Azulejo redesign (REDESIGN2.md §3-§4, SYSTEM.md): the warm amber palette, Gabarito for
+   titles and labels, Figtree for text. Flat and warm: no gradients, the tile is the only ornament, a shadow only
+   under the phones. Fonts are self-hosted (SIL OFL 1.1, licences in fonts/); the page makes no third-party request
+   and runs no script. Paths are relative to this file, which sits beside index.html. */
+
+/* ------------------------------------------------------------------ fonts: only the faces the page uses */
+@font-face { font-family: "Gabarito"; src: url("fonts/gabarito_bold.ttf") format("truetype"); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: "Figtree"; src: url("fonts/figtree_regular.ttf") format("truetype"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Figtree"; src: url("fonts/figtree_semibold.ttf") format("truetype"); font-weight: 600; font-style: normal; font-display: swap; }
+
+/* ------------------------------------------------------------------ tokens (the Azulejo amber palette) */
+:root {
+  --ground: #F3F0EA; --surface: #FFFFFF;
+  --primary: #B65E1E; --on-primary: #FFFFFF; --primary-ink: #9A4B0E; --primary-container: #F8E4CE;
+  --accent: #F0A55A; --on-accent: #3A2408;
+  --ink: #1D1B17; --ink2: #6B6257; --outline: #D2C8BA;
+  --frame: #1D1B17;
+  --shadow: 0 10px 28px rgba(60, 45, 25, 0.20);
+  --shadow-soft: 0 6px 18px rgba(60, 45, 25, 0.16);
+  --band: url("img/tile-band.svg");
+  --quartet: url("img/tile-quartet.svg");
+  --display: "Gabarito", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --text: "Figtree", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --gutter: 16px;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground: #0B0A07; --surface: #1C1813;
+    --primary: #F0A55A; --on-primary: #3A2408; --primary-ink: #F0A55A; --primary-container: #57330F;
+    --accent: #B65E1E; --on-accent: #FFFFFF;
+    --ink: #F3ECE3; --ink2: #B3A89C; --outline: #4A4036;
+    --frame: #3A332B;
+    --shadow: 0 10px 28px rgba(0, 0, 0, 0.50);
+    --shadow-soft: none;
+    /* The light band glares on #0B0A07; the app's band follows the theme, so dark mode uses the dark column. */
+    --band: url("img/tile-band-dark.svg");
+    /* The small four-tile mark too: white tiles glare on the dark container #57330F. */
+    --quartet: url("img/tile-quartet-dark.svg");
+  }
+}
+@media (min-width: 720px) { :root { --gutter: 32px; } }
+
+/* ------------------------------------------------------------------ base */
+*, *::before, *::after { box-sizing: border-box; }
+/* No smooth scrolling: it leaves a direct load of an anchor (tacayacomer.com/#get-it) half-way down. */
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font: 400 17px/1.55 var(--text);
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+img { display: block; max-width: 100%; height: auto; }
+h1, h2, h3, p, ul, figure { margin: 0; }
+h1, h2, h3 { font-family: var(--display); font-weight: 700; color: var(--ink); }
+ul { padding: 0; list-style: none; }
+a { color: var(--primary-ink); text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2.5px; }
+:focus-visible { outline: 3px solid var(--primary-ink); outline-offset: 2px; border-radius: 6px; }
+.wrap { width: 100%; max-width: 1120px; margin-inline: auto; padding-inline: var(--gutter); }
+
+/* ------------------------------------------------------------------ languages (CSS only, no script)
+   Spanish by default. While the URL's #target is the English block or anything inside it, English shows.
+   Browsers without :has() show both blocks, Spanish first. */
+@supports selector(:has(*)) {
+  .lang-en { display: none; }
+  html:has(#en:target, #en :target) .lang-en { display: block; }
+  html:has(#en:target, #en :target) .lang-es { display: none; }
+}
+
+/* ------------------------------------------------------------------ the tile band (the only ornament) */
+.band { height: 24px; background: var(--band) repeat-x left top; background-size: 104px 24px; }
+
+/* ------------------------------------------------------------------ skip link */
+.skip {
+  position: absolute; left: 16px; top: -100px; z-index: 10;
+  background: var(--surface); color: var(--primary-ink);
+  font: 700 15px/1 var(--display);
+  padding: 14px 18px; border-radius: 999px;
+}
+.skip:focus { top: 32px; }
+
+/* ------------------------------------------------------------------ header
+   Phone: the name and the language link on one line, the three sections on the next, so contact and legal are one
+   tap from the top. From 720 px: one line. */
+.header-row {
+  display: grid; grid-template-columns: 1fr auto; grid-template-areas: "brand lang" "nav nav";
+  align-items: center; column-gap: 12px; padding-top: 10px;
+}
+.brand {
+  grid-area: brand;
+  display: inline-flex; align-items: center; gap: 10px; justify-self: start;
+  min-height: 48px;
+  color: var(--ink); text-decoration: none;
+  font: 700 19px/1 var(--display);
+}
+.brand img { width: 40px; height: 40px; border-radius: 22%; }
+.lang-link {
+  grid-area: lang;
+  display: inline-flex; align-items: center; min-height: 48px; padding: 0 18px;
+  border: 1px solid var(--outline); border-radius: 999px;
+  font: 700 15px/1 var(--display); letter-spacing: 0.01em; text-decoration: none;
+}
+.lang-link:hover { text-decoration: underline; }
+.nav {
+  grid-area: nav;
+  display: flex; justify-content: space-between;
+  margin-top: 8px; border-top: 1px solid var(--outline);
+}
+.nav a {
+  display: inline-flex; align-items: center; min-height: 48px; padding: 0 4px;
+  font: 700 15px/1 var(--display); letter-spacing: 0.01em;
+  color: var(--ink); text-decoration: none;
+}
+.nav a:hover { color: var(--primary-ink); text-decoration: underline; }
+@media (min-width: 720px) {
+  .header-row {
+    grid-template-columns: auto 1fr auto; grid-template-areas: "brand nav lang";
+    min-height: 76px; padding-top: 0;
+  }
+  .nav { justify-content: flex-end; gap: 4px; margin: 0 8px 0 0; border-top: 0; }
+  .nav a { padding: 0 12px; font-size: 16px; }
+}
+
+/* ------------------------------------------------------------------ buttons and links */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 52px; padding: 0 26px; border-radius: 999px;
+  font: 700 17px/1 var(--display); letter-spacing: 0.01em;
+  text-decoration: none;
+}
+.btn-primary { background: var(--primary); color: var(--on-primary); }
+.btn-primary:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.btn:focus-visible { border-radius: 999px; }
+.text-link {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 48px;
+  font: 700 16px/1 var(--display); text-decoration: none;
+}
+.text-link:hover { text-decoration: underline; }
+.fine { font-size: 14px; line-height: 1.5; color: var(--ink2); }
+
+/* ------------------------------------------------------------------ phone frame */
+.phone {
+  background: var(--frame); border: 6px solid var(--frame); border-radius: 34px;
+  box-shadow: var(--shadow); overflow: hidden;
+}
+.phone img { width: 100%; border-radius: 28px; }
+@media (max-width: 599px) {
+  .phone { border-width: 4px; border-radius: 24px; }
+  .phone img { border-radius: 20px; }
+}
+
+/* ------------------------------------------------------------------ hero */
+.hero { padding: 24px 0 48px; }
+.hero-grid { display: grid; gap: 32px; align-items: center; }
+.eyebrow {
+  font: 700 14px/1.35 var(--display); letter-spacing: 0.02em;
+  color: var(--primary-ink);
+  margin-bottom: 12px;
+}
+h1 {
+  font-size: 38px; line-height: 1.08; letter-spacing: -0.015em;
+  text-wrap: balance;
+  margin-bottom: 16px;
+}
+.promise { font-size: 18px; line-height: 1.55; color: var(--ink2); max-width: 34em; margin-bottom: 24px; text-wrap: pretty; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-bottom: 12px; }
+
+/* Three phones fanned over a flat amber panel: the dish page in front, the Feed and Valorar behind it. */
+.hero-art { position: relative; width: 100%; max-width: 560px; margin-inline: auto; padding-bottom: 14px; }
+.hero-panel { position: absolute; inset: 14% 0 0 0; border-radius: 28px; background: var(--primary-container); }
+.fan { position: relative; aspect-ratio: 580 / 600; }
+.fan .phone { position: absolute; top: 0; }
+.fan .p-c { width: 45%; left: 27.5%; top: 1%; z-index: 2; }
+.fan .p-l { width: 37%; left: 5%; top: 13%; transform: rotate(-7deg); }
+.fan .p-r { width: 37%; right: 5%; top: 13%; transform: rotate(7deg); }
+
+@media (min-width: 900px) {
+  .hero { padding: 48px 0 88px; }
+  .hero-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 520px); gap: 56px; }
+  h1 { font-size: 58px; margin-bottom: 22px; }
+  .promise { font-size: 20px; margin-bottom: 32px; }
+}
+
+/* ------------------------------------------------------------------ section titles */
+h2 { font-size: 30px; line-height: 1.15; letter-spacing: -0.01em; text-wrap: balance; }
+@media (min-width: 900px) { h2 { font-size: 38px; } }
+
+/* ------------------------------------------------------------------ the four points, each with one of the band's tiles */
+.features { background: var(--primary-container); padding: 48px 0 52px; }
+.points { display: grid; gap: 12px; margin-top: 24px; }
+.point {
+  background: var(--surface); border-radius: 20px; padding: 18px 20px 20px;
+  display: grid; grid-template-columns: 44px 1fr; gap: 12px 14px; align-items: center; align-content: start;
+}
+.point h3 { font: 600 19px/1.3 var(--text); }
+.point p { grid-column: 1 / -1; font-size: 16.5px; color: var(--ink2); }
+@media (min-width: 900px) { .points { grid-template-columns: 1fr 1fr; gap: 16px; } }
+@media (min-width: 760px) {
+  .points { gap: 16px; }
+  .point { padding: 28px; grid-template-columns: 64px 1fr; gap: 6px 22px; align-items: start; }
+  .point .mini { grid-row: span 2; }
+  .point h3 { padding-top: 4px; }
+  .point p { grid-column: 2; }
+}
+@media (min-width: 900px) { .features { padding: 72px 0 80px; } .points { margin-top: 32px; } }
+
+/* One azulejo tile: a square and a quarter disc centred on one corner (SYSTEM.md §4, as in the band). */
+.mini { position: relative; width: 44px; height: 44px; border-radius: 6px; overflow: hidden; background: var(--mini-bg); }
+.mini::before { content: ""; position: absolute; inset: 0; background: var(--mini-disc); }
+@media (min-width: 760px) { .mini { width: 64px; height: 64px; border-radius: 8px; } }
+/* the band's four tiles, in its order */
+.mini-a { --mini-bg: var(--primary-container); --mini-disc: var(--primary); }
+.mini-a::before { border-top-left-radius: 100%; }
+.mini-b { --mini-bg: var(--primary); --mini-disc: var(--accent); }
+.mini-b::before { border-bottom-right-radius: 100%; }
+.mini-c { --mini-bg: var(--primary-container); --mini-disc: var(--primary); }
+.mini-c::before { border-top-right-radius: 100%; }
+.mini-d { --mini-bg: var(--accent); --mini-disc: var(--primary-container); }
+.mini-d::before { border-bottom-left-radius: 100%; }
+/* On the white card the light container tile needs an edge to read as a tile. */
+.mini-a, .mini-c { box-shadow: inset 0 0 0 1px var(--outline); }
+
+/* The tile quartet marks a spot (its gaps are transparent: it sits on the amber container). */
+.quartet {
+  flex: none; width: 44px; height: 44px; border-radius: 12px;
+  background: var(--primary-container) var(--quartet) center / 30px 30px no-repeat;
+}
+.privacy {
+  margin-top: 16px; display: flex; align-items: center; gap: 14px;
+  border: 2px solid var(--surface); border-radius: 20px; padding: 14px 18px;
+  font-weight: 600; font-size: 16.5px; line-height: 1.45; text-wrap: pretty;
+}
+
+/* ------------------------------------------------------------------ gallery */
+.gallery { padding: 56px 0 64px; }
+.section-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; }
+.note { font-size: 15px; color: var(--ink2); }
+.shots-scroll { margin-top: 24px; }
+.shots { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px 28px; }
+.shot .phone { box-shadow: var(--shadow-soft); }
+.shot figcaption {
+  margin-top: 14px; font-size: 15px; font-weight: 600; line-height: 1.35;
+  text-align: center; color: var(--ink); text-wrap: balance;
+}
+@media (max-width: 899px) {
+  /* A swipeable row of phones; the next one peeks in. Keyboard: the row is focusable and scrolls with the arrows. */
+  .shots-scroll {
+    overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+    margin-inline: calc(-1 * var(--gutter)); padding: 6px var(--gutter) 14px;
+    scroll-padding-inline: var(--gutter); scrollbar-width: none;
+  }
+  .shots-scroll::-webkit-scrollbar { display: none; }
+  .shots { display: flex; gap: 18px; width: max-content; }
+  .shot { width: 214px; scroll-snap-align: start; }
+}
+@media (min-width: 900px) { .gallery { padding: 80px 0 96px; } .shots-scroll { margin-top: 36px; } }
+
+/* ------------------------------------------------------------------ get it (the call to action) */
+.get { padding: 0 0 64px; }
+.get-card {
+  background: var(--surface);
+  border-radius: 28px;
+  padding: 36px 20px 32px;
+  text-align: center;
+  max-width: 760px; margin: 0 auto;
+  display: flex; flex-direction: column; align-items: center;
+}
+.quartet-lg { width: 66px; height: 66px; border-radius: 20px; background-size: 46px 46px; margin-bottom: 20px; }
+.get-card h2 { margin-bottom: 12px; }
+.get-card > p:not(.fine) { color: var(--ink2); max-width: 32em; margin-bottom: 24px; }
+.stores { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 28px; }
+/* Plain text on a flat ground pill: no border, no hover, so it never reads as a button or a store badge. */
+.stores li {
+  display: inline-flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 2px 8px;
+  padding: 10px 18px; border-radius: 999px;
+  background: var(--ground);
+  font-size: 15px; line-height: 1.3;
+}
+.stores strong { font: 700 15px/1.3 var(--display); color: var(--ink); }
+.stores span { color: var(--ink2); }
+.get-card .btn { margin-bottom: 14px; }
+@media (min-width: 900px) {
+  .get { padding-bottom: 104px; }
+  .get-card { padding: 52px 48px 44px; }
+}
+
+/* ------------------------------------------------------------------ footer */
+.site-footer { background: var(--surface); }
+.footer-inner { padding-top: 26px; padding-bottom: 36px; }
+.footer-brand { display: flex; align-items: center; gap: 10px; font: 700 18px/1.2 var(--display); margin-bottom: 8px; }
+.footer-brand img { width: 32px; height: 32px; border-radius: 22%; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 0 4px; margin: 0 -12px 10px; }
+.footer-links a {
+  display: inline-flex; align-items: center; min-height: 48px; padding: 0 12px;
+  font-size: 16px; font-weight: 600;
+}
+.footer-links a:not(:hover) { text-decoration: none; }
+.small { font-size: 13.5px; line-height: 1.9; color: var(--ink2); }
+.small a { color: var(--ink2); }
+@media (min-width: 900px) {
+  .footer-inner {
+    display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 4px 32px;
+    padding-top: 24px; padding-bottom: 32px;
+  }
+  .footer-brand { margin: 0; }
+  .footer-links { justify-content: flex-end; margin: 0 -12px 0 0; }
+  .small { grid-column: 1 / -1; }
+}
